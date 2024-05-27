@@ -1,42 +1,31 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = "maorsh6/simple-web-app:${env.BUILD_NUMBER}"
-    }
-
     stages {
-        stage('Build') {
+        stage('Build Docker Images') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE)
+                    docker.build('maorsh6/order-service:latest', 'order-service')
                 }
             }
         }
 
-        stage('Test') {
-            steps {
-                script {
-                    // Add your test steps here
-                    echo "Running tests..."
-                }
-            }
-        }
-
-        stage('Push to Docker Hub') {
+        stage('Push Docker Images') {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
-                        docker.image(DOCKER_IMAGE).push()
+                        docker.image('maorsh6/user-service:latest').push()
+                        docker.image('maorsh6/order-service:latest').push()
                     }
                 }
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Deploy with Helm') {
             steps {
                 script {
-                    kubernetesDeploy(configs: 'k8s/deployment.yaml', kubeconfigId: 'kubeconfig')
+                    sh 'helm upgrade --install user-service ./user-service-chart'
+                    sh 'helm upgrade --install order-service ./order-service-chart'
                 }
             }
         }
