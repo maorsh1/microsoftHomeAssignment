@@ -7,7 +7,7 @@ pool:
 steps:
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'AzureServiceConnection'  # שנה לפי השם שנתת ל-service connection
+    azureSubscription: 'second'  # שנה לפי השם שנתת ל-service connection
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
