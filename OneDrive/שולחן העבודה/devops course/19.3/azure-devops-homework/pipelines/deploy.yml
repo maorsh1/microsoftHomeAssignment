@@ -1,0 +1,23 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'AzureServiceConnection'  # שנה לפי השם שנתת ל-service connection
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo "Deploying storage accounts..."
+      az deployment group create \
+        --resource-group devops-homework \
+        --template-file templates/storage-template.json
+
+      echo "Deploying VM..."
+      az deployment group create \
+        --resource-group devops-homework \
+        --template-file templates/vm-template.json
+    displayName: 'Deploy Azure Resources'
