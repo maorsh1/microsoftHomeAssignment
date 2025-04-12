@@ -9,7 +9,7 @@ pool:
 steps:
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'AzureServiceConnection'
+    azureSubscription: 'azure-devops-connection'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
