@@ -2,12 +2,14 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: Default
+  demands:
+  - agent.name -equals maor-agent
 
 steps:
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'second'
+    azureSubscription: 'AzureServiceConnection'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
