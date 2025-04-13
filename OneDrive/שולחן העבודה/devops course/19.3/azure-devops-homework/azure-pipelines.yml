@@ -24,3 +24,4 @@ steps:
     STORAGE_A_CONN: $(STORAGE_A_CONN)
     STORAGE_B_CONN: $(STORAGE_B_CONN)
   displayName: 'Run blob transfer script'
+
