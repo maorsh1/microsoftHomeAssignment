@@ -1,0 +1,26 @@
+trigger:
+- main
+
+pool:
+  name: Default
+
+variables:
+  STORAGE_A_CONN: $(STORAGE_A_CONN)
+  STORAGE_B_CONN: $(STORAGE_B_CONN)
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    python blob_script.py
+  env:
+    STORAGE_A_CONN: $(STORAGE_A_CONN)
+    STORAGE_B_CONN: $(STORAGE_B_CONN)
+  displayName: 'Run blob transfer script'
